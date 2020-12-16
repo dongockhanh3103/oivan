@@ -8,3 +8,4 @@
 
 User.destroy_all
 User.create!(email: 'teacher@example.com', name: 'Ziv', password: '12345678', password_confirmation: '12345678', role: :teacher)
+User.create!(email: 'ziv@example.com', name: 'khanhdo', password: '12345678', password_confirmation: '12345678', role: :student)
