@@ -1,4 +1,7 @@
 <table class="table table-striped">
+  <a href="#" class="btn btn-success btn-lg">
+    <span class="glyphicon glyphicon-print"></span> New User 
+  </a>
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -13,13 +16,15 @@
       <tr>
         <th scope="row">1</th>
         <td>
-          <%= link_to user.name, root_path %>
+          <%= link_to user.name, admin_user_path(user) %>
         </td>
         <td><%= user.email %></td>
         <td><%= user.role%></td>
         <td>
-          <%= link_to 'Edit', root_path %>
-          <%= link_to 'Delete', root_path %>
+          <%= link_to 'Edit', edit_admin_user_path(user) %>
+
+          <%= link_to "Delete", { action: "destroy", id: user.id },
+              method: :delete, data: { confirm: "Are you sure?" } %>
         </td>
       </tr>
     <% end %>

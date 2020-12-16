@@ -1,0 +1,24 @@
+<%= simple_form_for(@user, url: admin_user_path, html: { method: :put }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :email, required: true, autofocus: true %>
+    <%= f.input :name, required: true, autofocus: true %>
+    <%= f.input :password,
+                hint: "leave it blank if you don't want to change it",
+                required: false,
+                class: "admin--user-password",
+                input_html: { autocomplete: "new-password" } %>
+    <%= f.input :password_confirmation,
+                required: false,
+                class: "admin--user-password-confirmation",
+                input_html: { autocomplete: "new-password" } %>
+    <small class="admin--user-form-error text-danger" hidden>error</small>
+    <%= f.input :role, collection: @roles, selected: @user.role %>
+    <%= f.input :id, input_html: { hidden: true } %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Update", class: "btn btn-success btn-user-submit", disabled: true %>
+  </div>
+<% end %>
