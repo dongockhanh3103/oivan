@@ -7,5 +7,22 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.destroy_all
-User.create!(email: 'teacher@example.com', name: 'Ziv', password: '12345678', password_confirmation: '12345678', role: :teacher)
-User.create!(email: 'ziv@example.com', name: 'khanhdo', password: '12345678', password_confirmation: '12345678', role: :student)
+Quiz.destroy_all
+
+teacher = User.create!(email: 'teacher@example.com', name: 'Ziv', password: '12345678', password_confirmation: '12345678', role: :teacher)
+student = User.create!(email: 'ziv@example.com', name: 'khanhdo', password: '12345678', password_confirmation: '12345678', role: :student)
+subjects = ['Math', 'English', 'Geography', 'History', 'Physical']
+
+subjects.each do |subject|
+  quiz = Quiz.create!(name: subject, description: "Quiz about #{subject}", user_id: teacher.id)
+
+  5.times do |q|
+    score = rand(1..5)
+    question = QuizQuestion.create!(quiz_id: quiz.id, label: "Question #{q+1}", description: "Question #{subject} #{q+1}:", score: score)
+    correct_answer = rand(4)
+
+    ('A'..'D').each_with_index do |r, i|
+      QuizAnswer.create!(content: r, quiz_question_id: question.id, correct: i == correct_answer)
+    end
+  end
+end

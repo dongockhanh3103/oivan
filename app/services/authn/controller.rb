@@ -4,6 +4,7 @@ module Authn
 
   module Controller
 
+    # Authenticate user through Bearer token
     def self.included(klass)
       klass.class_eval do
         include InstanceMethods
@@ -14,25 +15,55 @@ module Authn
 
   module InstanceMethods
 
-    # To be used as before_action.
-    # Will trigger auto-login attempts via the call to logged_in?
-    # If all attempts to auto-login fail, the failure callback will be called.
-    def require_authn!
-      if block_given?
-        yield
-      elsif !logged_in?
-        authn_failed!
-      end
+    # verify the request has beare token
+    # get HTTP_AUTHORIZATION header and verify
+    def authentication_user!
+      raise Authorization::UnauthenticatedError if get_bearer_token.nil?
+      decoded = AuthenTokenService.decode(get_bearer_token)
+
+      raise Authorization::UnauthenticatedError if decoded.blank?
+
+      user = User.find_by(email: decoded[:email])
+      raise Authorization::UnauthenticatedError if user.nil?
+
+      login_success(user)
+    end
+
+    # attempts to auto-login from the sources defined
+    # returns the logged in user if found, nil if not
+    def current_user
+      @current_user = login_from_session || nil unless defined?(@current_user)
+      @current_user
+    end
+
+    # Assign current_user
+    def current_user=(user)
+      @current_user = user
+    end
+
+    # Login a user instance
+    #
+    # @param [User] user the user instance.
+    # @return - do not depend on the return value.
+    def login_success(user)
+      session[:user_email] = user.email
+      @current_user = user
     end
 
     protected
 
-    def authn_failed!(messages = [])
-      raise Authn::UnauthenticatedError, messages
+    def login_from_session
+      @current_user = (User.find_by_email(session[:user_email]) if session[:user_email])
     end
 
-    def logged_in?
-      !!current_user
+    # Get Bearer token from authorization token
+    #
+    # @return [String] The token, return `nil` if no Bearer token
+    def get_bearer_token
+      token = request.env['HTTP_AUTHORIZATION']
+
+      bearer_pattern = %r{^Bearer }
+      token&.match(bearer_pattern) ? token.gsub(bearer_pattern, '') : nil
     end
 
   end

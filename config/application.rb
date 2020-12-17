@@ -10,9 +10,11 @@ module Oivan
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+    config.exceptions_app = self.routes # a Rack Application
     app = "#{Rails.root}/app"
     config.autoload_paths += [
-      "#{app}/services"
+      "#{app}/services",
+      "#{app}/presenters"
     ]
 
     # Settings in config/environments/* take precedence over those specified here.
