@@ -8,6 +8,9 @@ module Admin
         @param = param
       end
 
+      # Create a User
+      #
+      # @return [Hash] The result after handle create User
       def execute
         user = User.find_by(id: @param[:id])
         if user.present?

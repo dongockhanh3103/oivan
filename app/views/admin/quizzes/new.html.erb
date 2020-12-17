@@ -1,0 +1,79 @@
+<div class="d-flex justify-content-between">
+    <p>
+      <%= link_to 'Back', admin_quizzes_path, class: "btn btn-secondary btn-default" %>
+      <button type="submit" class="btn btn-success btn-default" form="admin--quiz-form">Save</button>
+    <p>
+
+    <button type="button" class="btn btn-info btn-default admin--quiz-more-question-button">More Question</button>
+</div>
+
+<form action="<%= admin_quizzes_path %>" method="POST" class="simple_form" id="admin--quiz-form">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <!-- Quiz General -->
+  <div class="form-inputs">
+    <div class="row">
+      <div class="col-2 form-group email required quiz_name form-group-valid">
+        <label>Name<abbr title="required">*</abbr></label>
+      </div>
+      <div class="col-10">
+        <input
+          class="form-control is-valid string email required" 
+          autofocus="autofocus" required="required"
+          aria-required="true" type="text"
+          name="quiz[name]" id="quiz_name"
+        />
+      </div>
+    </div>
+     <div class="row">
+      <div class="col-2 form-group email required quiz_description form-group-valid">
+        <label>Description<abbr title="required">*</abbr></label>
+      </div>
+      <div class="col-10">
+        <textarea
+          class="form-control is-valid string email required" 
+          autofocus="autofocus" required="required"
+          aria-required="true" type="text"
+          name="quiz[description]" id="quiz_name"
+        >
+        </textarea>
+      </div>
+    </div>
+  </div>
+  <!-- Quiz General -->
+ <hr class="solid">
+  <!-- Questions -->
+  <div class="form-inputs">
+    <div class="row">
+      <div class="col-11">
+        <input
+          class="form-control is-valid string email required" 
+          autofocus="autofocus" required="required"
+          aria-required="true" type="text"
+          name="question[][label]"
+          placeholder="Give the question a label here..."
+        />
+      </div>
+
+      <div class="col-1">
+        <button type="button" class="btn btn-danger" >Delete</button> 
+      </div>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-12">
+         <textarea
+          class="form-control is-valid string email required" 
+          autofocus="autofocus" required="required"
+          aria-required="true" type="text"
+          name="question[][description]"
+        >
+        </textarea>
+      </div>
+    </div>
+  </div>
+  <!-- Questions -->
+
+  <div class="admin--quiz-more-questions-area">
+  </div>
+
+</form>

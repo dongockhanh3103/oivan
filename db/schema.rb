@@ -10,10 +10,63 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_15_143843) do
+ActiveRecord::Schema.define(version: 2020_12_17_154321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "quiz_answers", force: :cascade do |t|
+    t.bigint "quiz_question_id"
+    t.string "content"
+    t.boolean "correct"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quiz_question_id"], name: "index_quiz_answers_on_quiz_question_id"
+  end
+
+  create_table "quiz_questions", force: :cascade do |t|
+    t.bigint "quiz_id"
+    t.string "label"
+    t.string "description"
+    t.integer "score"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quiz_id"], name: "index_quiz_questions_on_quiz_id"
+  end
+
+  create_table "quizzes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.text "description"
+    t.integer "score", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_quizzes_on_user_id"
+  end
+
+  create_table "take_answers", force: :cascade do |t|
+    t.bigint "take_quiz_id"
+    t.bigint "quiz_question_id"
+    t.bigint "quiz_answer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quiz_answer_id"], name: "index_take_answers_on_quiz_answer_id"
+    t.index ["quiz_question_id"], name: "index_take_answers_on_quiz_question_id"
+    t.index ["take_quiz_id"], name: "index_take_answers_on_take_quiz_id"
+  end
+
+  create_table "take_quizzes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "quiz_id"
+    t.datetime "start_at"
+    t.datetime "finish_at"
+    t.integer "score"
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quiz_id"], name: "index_take_quizzes_on_quiz_id"
+    t.index ["user_id"], name: "index_take_quizzes_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
