@@ -4,7 +4,18 @@ module Api
   module V1
     class TakeQuizzesController < Api::V1::ApplicationController
 
-      def show; end
+      # GET api/v1/take_quizzes/:id
+      def show
+        result = TakeQuizOperation::GetTakeQuiz.execute(params)
+
+        if result[:success]
+          @quiz = result[:quiz]
+          @questions = result[:questions]
+          @take_quiz = result[:take_quiz]
+        else
+          render_failed_response
+        end
+      end
 
       # POST api/v1/take_quizzes
       #
@@ -24,12 +35,21 @@ module Api
       # }
       #
       def create
-        TakeQuizOperation::SaveTakeQuiz.execute(build_create_take_quizzes_params, current_user)
+        result = TakeQuizOperation::SaveTakeQuiz.execute(
+          build_create_take_quiz_params,
+          current_user
+        )
+
+        if result[:success]
+          render_success_response(take_quiz_id: result[:take_quiz_id])
+        else
+          render_failed_response
+        end
       end
 
       private
 
-      def build_create_take_quizzes_params
+      def build_create_take_quiz_params
         params.permit(:quiz_id, :finish_at, :start_at, results: %i[question answer])
       end
 

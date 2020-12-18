@@ -11,7 +11,9 @@ module AuthenTokenService
   #                         and additional metadata
   #
   # @return [String] The base64 encoded string
-  def self.encode(payload)
+  def self.encode(payload, exp: false)
+    payload[:exp] = 24.hours.from_now.to_i if exp
+
     JWT.encode(payload, hmac_secret, SIGNED_ALGORITHM)
   end
 

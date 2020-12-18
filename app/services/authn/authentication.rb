@@ -19,15 +19,42 @@ module Authn
         return { success: false } if user.nil?
         return { success: false } unless user.valid_password?(password)
 
+        refresh_token = RefreshTokenOperation::StoreRefreshToken.execute(user.id)
+
         {
           success: true,
           info:    {
-            email: user.email,
-            name:  user.name,
-            role:  user.role,
-            token: AuthenTokenService.encode(email: user.email)
+            email:         user.email,
+            name:          user.name,
+            role:          user.role,
+            token:         AuthenTokenService.encode(email: user.email),
+            refresh_token: refresh_token
           }
         }
+      end
+
+      # Refresh token
+      def refresh_token(refresh_token_params)
+        user = User.find_by_id(refresh_token_params[:user_id])
+        refresh_token_model = RefreshToken.where(
+          user_id: user.id,
+          token:   refresh_token_params[:token]
+        ).first
+
+        return { success: false } if refresh_token_model.blank?
+
+        refresh_token_encoded = AuthenTokenService.encode(
+                                  user_id: user.id,
+                                  token:   refresh_token_params[:token]
+                                )
+        access_token = AuthenTokenService.encode({ email: user.email }, exp: true)
+        RefreshTokenOperation::StoreRefreshToken.execute(
+          user.id,
+          token:         refresh_token_params[:token],
+          refresh_token: refresh_token_encoded
+        )
+
+        { success: true, refresh_token: refresh_token_encoded, token: access_token }
       end
 
     end
