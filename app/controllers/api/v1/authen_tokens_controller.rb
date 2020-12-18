@@ -6,13 +6,54 @@ module Api
 
       include LoginConcern
 
-      skip_before_action :authentication_user!, only: [:create]
+      skip_before_action :authentication_user!, only: [:create, :refresh_token]
 
       # POST /api/v1/authen_tokens/
       # Verify email and password
-      # Return { Hash }
+      # Return [Hash]
       def create
         login(login_params[:email], login_params[:password])
+      end
+
+      # Request new authen token by using refesh token.
+      # This API require authorization token from login api.
+      #
+      # @return
+      # If refresh token successfully, return:
+      #
+      #  {
+      #    status: 'success',
+      #    refresh_token: <refresh token>,
+      #    token: <token>
+      #  }
+      #
+      # If refresh token failed, return:
+      #
+      #  {
+      #    status: 'failed',
+      #    errors: [ <error message> ]
+      #  }
+      def refresh_token
+        refresh_token_decode = AuthenTokenService.decode(refresh_token_params[:refresh_token])
+
+        if refresh_token_decode[:token].blank? || refresh_token_decode[:user_id].blank?
+          raise Params::InvalidParamError.new(refresh_token_params, 'Refresh token is invalid')
+        end
+
+        response = Authn::Authentication.refresh_token(refresh_token_decode)
+
+        if response[:success]
+          render_success_response(
+            refresh_token: response[:refresh_token],
+            token:         response[:token]
+          )
+        else
+          render_failed_response
+        end
+      end
+
+      def destroy
+        logout
       end
 
       private
@@ -23,6 +64,10 @@ module Api
         end
 
         params.permit(:email, :password)
+      end
+
+      def refresh_token_params
+        params.permit(:refresh_token)
       end
 
     end

@@ -20,7 +20,7 @@ module TakeQuizOperation
       ActiveRecord::Base.transaction do
         quiz = Quiz.find_by(id: @quiz_id)
 
-        raise Params::InvalidParamError if quiz.nil?
+        raise Params::InvalidParamError.new(@quiz_id, "Invalid quiz: #{@quiz_id}") if quiz.nil?
         @take_quiz = TakeQuiz.create!(quiz_id:   @quiz_id,
                                       user_id:   @user.id,
                                       start_at:  @start_at,
@@ -28,10 +28,10 @@ module TakeQuizOperation
                                       score:     0)
 
         save_take_quiz!
-        return { sucess: true }
+        return { success: true, take_quiz_id: @take_quiz.id }
       end
 
-      { sucess: false }
+      { success: false }
     end
 
     private
@@ -41,10 +41,12 @@ module TakeQuizOperation
       @results.each do |result|
         quiz_question = QuizQuestion.includes(:quiz_answers).find_by(id: result[:question])
 
-        raise Params::InvalidParamError if quiz_question.nil?
+        if quiz_question.nil?
+          raise Params::InvalidParamError.new(@results, "Invalid question: #{result[:question]}")
+        end
 
         if !quiz_question.quiz_answers.pluck(:id).include?(result[:answer])
-          raise Params::InvalidParamError
+          raise Params::InvalidParamError.new(@results, "Invalid answer: #{result[:answer]}")
         end
         TakeAnswer.create!(quiz_answer_id:   result[:answer],
                            quiz_question_id: result[:question],

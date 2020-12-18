@@ -16,4 +16,11 @@ module LoginConcern
     end
   end
 
+  # Revoke all refresh token and reset session
+  def logout
+    RefreshTokenOperation::RevokeRefreshToken.execute(current_user.id)
+    current_user = nil
+    reset_session
+  end
+
 end
