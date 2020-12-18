@@ -6,6 +6,8 @@ module RefreshTokenOperation
     # @param user_id [Integer]      The user's id
     def initialize(user_id, token: nil, refresh_token: nil)
       @user_id = user_id
+      @refresh_token = refresh_token
+      @token = token
     end
 
     # Create a new refresh token to map the refresh_token of idp
@@ -31,16 +33,16 @@ module RefreshTokenOperation
     def create_refresh_token
       uniq_token = generate_unique_token
 
-      refresh_token = RefreshToken.create!(
-        token:         uniq_token,
-        crypted_token: AuthenTokenService.encode(
-          token:   uniq_token,
-          user_id: @user_id
-        ),
-        user_id:       @user_id
-      )
+      refresh_token_model = RefreshToken.create!(
+                            token:         uniq_token,
+                            crypted_token: AuthenTokenService.encode(
+                              token:   uniq_token,
+                              user_id: @user_id
+                            ),
+                            user_id:       @user_id
+                          )
 
-      refresh_token&.crypted_token
+      refresh_token_model&.crypted_token
     end
 
     def generate_unique_token

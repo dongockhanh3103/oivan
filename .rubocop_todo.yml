@@ -378,6 +378,9 @@ Lint:
 Lint/UselessAssignment:
   Enabled: true
 
+Lint/MissingSuper:
+  Enabled: false
+
 ################### Metrics #####################
 Metrics/AbcSize:
   Enabled: true

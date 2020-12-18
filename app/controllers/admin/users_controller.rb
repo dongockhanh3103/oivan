@@ -16,6 +16,8 @@ module Admin
     # GET /admin/users/1/edit
     def edit
       @roles ||= User.roles.keys
+      @url = admin_user_path
+      @method = :put
     end
 
     # PATCH/PUT /admin/users/1
@@ -39,6 +41,27 @@ module Admin
       end
     end
 
+    # GET /admin/users/new
+    def new
+      @user = User.new
+      @url = admin_users_path
+      @method = :post
+      @roles ||= User.roles.keys
+    end
+
+    # POST /admin/users/
+    def create
+      response = Admin::UserOperation::CreateUser.execute(build_create_params)
+
+      respond_to do |format|
+        if response[:success]
+          format.html { redirect_to admin_users_path, notice: 'User was successfully created.' }
+        else
+          format.html { render :edit }
+        end
+      end
+    end
+
     private
 
     def set_user
@@ -47,6 +70,10 @@ module Admin
 
     def build_update_params
       params.require(:user).permit(:password, :password_confirmation, :name, :id, :email, :role)
+    end
+
+    def build_create_params
+      params.require(:user).permit(:password, :password_confirmation, :name, :email, :role)
     end
 
   end

@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class=" full-width">
+
+      <h1 class="text-center">
+          <%= @quiz.name %>
+      </h1>
+
+      <div class="quiz-description"> 
+        <%= @quiz.description %>
+      </div>
+      <small><%= @quiz.created_date_formater %> by <%= @quiz.user.email %> </small>
+      <div class="pb-3"> </div>
+      <% @questions.each do |question| %>
+        <div class="card" style="width: 50rem;" class="mb-5">
+          <div class="card-body">
+            <span class="badge badge-info"><%= question.label %></span>
+            <p class="card-text"><%= question.description %></p>
+          </div>
+
+          <ul class="list-group">
+            <% question.quiz_answers.each_with_index do |answer,i| %>
+              <li class="<%= answer.correct ? 'active' : '' %> list-group-item"><%= i+1 %>:&nbsp&nbsp<%= answer.content %></li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="pb-3"> </div>
+      <% end %>
+    </div>
+  </div>
+</div>
