@@ -6,9 +6,10 @@ module Api
 
       include LoginConcern
 
-      skip_before_action :authentication_user!, only: [:create, :refresh_token]
+      skip_before_action :authentication_user!, only: %i[create refresh_token]
 
       # POST /api/v1/authen_tokens/
+      #
       # Verify email and password
       # Return [Hash]
       def create
@@ -52,8 +53,17 @@ module Api
         end
       end
 
+      # DELETE /api/v1/authen_tokens/
+      #
+      # Return [Boolean] Logout or not
       def destroy
-        logout
+        response = logout
+
+        if response[:success]
+          render_success_response
+        else
+          render_failed_response
+        end
       end
 
       private

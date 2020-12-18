@@ -25,7 +25,9 @@ class ApplicationController < ActionController::Base
   end
 
   def logout
+    # rubocop:disable Lint/UselessAssignment
     current_user = nil
+    # rubocop:enable Lint/UselessAssignment
     reset_session
   end
 

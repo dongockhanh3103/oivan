@@ -1,4 +1,4 @@
-<%= simple_form_for(@user, url: admin_user_path, html: { method: :put }) do |f| %>
+<%= simple_form_for(@user, url: @url, html: { method: @method }) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -15,7 +15,9 @@
                 input_html: { autocomplete: "new-password" } %>
     <small class="admin--user-form-error text-danger" hidden>error</small>
     <%= f.input :role, collection: @roles, selected: @user.role %>
-    <%= f.input :id, input_html: { hidden: true } %>
+    <div hidden>
+      <%= f.input :id, input_html: { hidden: true } %>
+    </div>
   </div>
 
   <div class="form-actions">

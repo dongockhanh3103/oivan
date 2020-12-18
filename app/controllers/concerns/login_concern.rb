@@ -19,8 +19,13 @@ module LoginConcern
   # Revoke all refresh token and reset session
   def logout
     RefreshTokenOperation::RevokeRefreshToken.execute(current_user.id)
+
+    # rubocop:disable Lint/UselessAssignment
     current_user = nil
+    # rubocop:enable Lint/UselessAssignment
     reset_session
+
+    { success: true }
   end
 
 end

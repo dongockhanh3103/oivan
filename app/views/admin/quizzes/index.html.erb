@@ -17,12 +17,12 @@
       <tr>
         <th scope="row"><%= quiz.id %></th>
         <td>
-          <%= link_to quiz.name, admin_quiz_path(quiz) %>
+          <%= link_to quiz.name, admin_quiz_path(quiz.id) %>
         </td>
         <td><%= quiz.description %></td>
         <td><%= quiz.questions_count %></td>
         <td>
-          <%= link_to 'Edit', edit_admin_quiz_path(quiz) %>
+          <%= link_to 'Edit', edit_admin_quiz_path(quiz.id) %>
 
           <%= link_to "Delete", { action: "destroy", id: quiz.id },
               method: :delete, data: { confirm: "Are you sure?" } %>

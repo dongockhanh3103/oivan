@@ -4,8 +4,10 @@ module Admin
   module QuizOperation
     class CreateQuiz < BaseOperation
 
-      def initialize(param, user)
-        @param = param
+      # Init params
+      def initialize(quiz, questions, user)
+        @quiz = quiz
+        @questions = questions.require(:questions)
         @user = user
       end
 
@@ -13,9 +15,25 @@ module Admin
       #
       # @return [Hash] The result after handle create Quiz
       def execute
-        Quiz.create!(name: @param[:name], description: @param[:description])
+        ActiveRecord::Base.transaction do
+          quiz_model = Quiz.create!(
+            name:        @quiz[:name],
+            description: @quiz[:description],
+            user_id:     @user.id
+          )
 
-        { success: true }
+          if quiz_model.persisted?
+            @questions.each do |question|
+              Admin::QuestionOperation::CreateQuestion.execute(quiz_model.id, question)
+            end
+          else
+            return { success: false }
+          end
+
+          return { success: true }
+        end
+
+        { success: false }
       end
 
     end

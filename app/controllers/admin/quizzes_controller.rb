@@ -12,11 +12,38 @@ module Admin
     def new; end
 
     # POST /admin/quizzes
+    #
+    # {
+    #  "quiz": {
+    #     "name":"Math",
+    #     "description":"Improve yourself"
+    #  },
+    #  "questions":[
+    #     {
+    #        "label":"Apple",
+    #        "description":"An has an apple.
+    #                       Bao's going to give An an apple? The apple belongs to An?",
+    #        "answers":[
+    #           {
+    #              "content":"Nothing"
+    #           },
+    #           {
+    #              "content":"2",
+    #              "correct": "on"
+    #           }
+    #        ]
+    #     }
+    #  ]
+    # }
     def create
-      result = Admin::QuizOperation::CreateQuiz.execute(build_create_quiz_params, current_user)
+      result = Admin::QuizOperation::CreateQuiz.execute(
+        build_create_quiz_params,
+        build_create_questions_params,
+        current_user
+      )
 
       respond_to do |format|
-        if result[:success]
+        if result
           format.html { redirect_to admin_quizzes_path, notice: 'Quiz was successfully updated.' }
         else
           format.html { render :new }
@@ -25,7 +52,16 @@ module Admin
     end
 
     # GET /admin/quizzes/:id
-    def show; end
+    def show
+      result = Admin::QuizOperation::GetQuiz.execute(params)
+
+      if result[:success]
+        @quiz = result[:quiz]
+        @questions = result[:questions]
+      else
+        render_404
+      end
+    end
 
     # GET /admin/quizzes/:id/edit
     def edit; end
@@ -34,12 +70,26 @@ module Admin
     def update; end
 
     # DELETE /admin/quizzes/:id
-    def destroy; end
+    def destroy
+      response = Quiz.destroy(params[:id])
+
+      respond_to do |format|
+        if response
+          format.html { redirect_to admin_quizzes_path, notice: 'Quiz was successfully deleted.' }
+        else
+          format.html { redirect_to admin_quizzes_path, notice: 'Quiz was failure deleted.' }
+        end
+      end
+    end
 
     private
 
     def build_create_quiz_params
       params.require(:quiz).permit(:name, :description)
+    end
+
+    def build_create_questions_params
+      params.permit(questions: [:label, :description, answers: %i[content correct]])
     end
 
   end

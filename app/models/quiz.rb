@@ -19,5 +19,12 @@
 class Quiz < ApplicationRecord
 
   has_many :quiz_questions, dependent: :destroy
+  belongs_to :user
+
+  # @return [Datetime] after format
+  # Ex: Tuesday, November, 3, 2020
+  def created_date_formater
+    created_at.strftime('%A, %B, %e, %Y')
+  end
 
 end
