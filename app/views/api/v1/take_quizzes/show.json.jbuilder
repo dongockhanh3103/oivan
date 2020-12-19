@@ -1,5 +1,6 @@
 json.ignore_nil!
 
+json.status 'success'
 json.data do
   json.quiz do
     json.id @quiz.id
