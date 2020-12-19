@@ -3,10 +3,10 @@ Oivan Assignment
 ## Usage
 
 Go to: https://iwa-tech.herokuapp.com/
-Database: PostgreSql
-Rails version: 6.0.3
-Ruby version: 2.6.6
-Default User:
+- Database: PostgreSql
+- Rails version: 6.0.3
+- Ruby version: 2.6.6
+- Default User:
 - Email: teacher@example.com
 - Password: 12345678
 - Role: Teacher
@@ -23,7 +23,12 @@ Default User:
 2. Tests
   - [X] CURD Tests
   - [X] Authorize Tests
+
 3. API
+| Feature  | API | Params  | Header | Response | Header |
+| ------------- | ------------- | -------------  | ------------- | ------------- | ------------- |
+| Login  | /api/v1/authen_tokens  |   | Second Header | Header | Header |
+| Content Cell  | Content Cell  | First Header  | Second Header | Header | Header |
 
 
 ## Unit Test
