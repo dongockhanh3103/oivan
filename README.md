@@ -3,6 +3,10 @@ Oivan Assignment
 ## Usage
 
 Go to: https://iwa-tech.herokuapp.com/
+Database: PostgreSql
+Rails version: 6.0.3
+Ruby version: 2.6.6
+Default User:
 - Email: teacher@example.com
 - Password: 12345678
 - Role: Teacher
@@ -20,9 +24,7 @@ Go to: https://iwa-tech.herokuapp.com/
   - [X] CURD Tests
   - [X] Authorize Tests
 3. API
-Attempt | #1 | #2 | #3 | #4 | #5 | #6 | #7 | #8 | #9 | #10 | #11
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
-Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269
+
 
 ## Unit Test
   - [X] Operations
