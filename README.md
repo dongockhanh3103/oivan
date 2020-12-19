@@ -1,35 +1,38 @@
-# VENUERIFIC
-Venuerific Assignment
+# OIVAN
+Oivan Assignment
 ## Usage
 
-Go to: https://venuerific.herokuapp.com/
+Go to: https://iwa-tech.herokuapp.com/
 Default:
-  - Email: admin@gmail.com
-  - Password: admin123
-  - Role: Admin
+  - Email: teacher@example.com
+  - Password: 12345678
+  - Role: Teacher
 
 ## Feature
-1. User
+1. Admin page
   - [X] Create User
-  - [X] Have 2 roles includes admin and regular user. Admins can manages all posts and Regular users just manages their posts.
+  - [X] Have 2 roles includes teacher and student. Teachers can manages all users and manages all Tests.
   - [X] Update Password
   - [X] Sign in with session
   - [X] Sign up
   - [X] Sign out
 
-2. Post
-  - [X] CURD Posts
-  - [X] Authorize Posts
-  - [X] Search Posts
-  - [X] Pagination Post
+2. Tests
+  - [X] CURD Tests
+  - [X] Authorize Tests
+3. API
+Feature | API | Params | Header | Response 
+--- | --- | --- | --- |--- |--- |--- |--- 
+Login | 301 | 283 | 290 | 286 | 289 | 285 
 
 ## Unit Test
-  - [X] Controller
-  - [X] Model
-  - [X] Operation
+  - [X] Operations
+  - [X] API
 
 ## Best practices
   - [X] Rubocop
+  - [X] Unit Test
+  - [X] Authentication users with JWT
 ## Devops
   - [X] Auto run Rubocop after create PR on Github Action
   - [X] Auto run Unit Test after create PR on Github Action
