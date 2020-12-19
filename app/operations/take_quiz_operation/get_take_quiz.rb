@@ -28,7 +28,7 @@ module TakeQuizOperation
               take_quiz: take_quiz
             }
       end
-
+    rescue
       { success: false }
     end
 

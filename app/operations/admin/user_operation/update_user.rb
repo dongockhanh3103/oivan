@@ -13,20 +13,24 @@ module Admin
       #
       # @return [Hash] The result after handle updated User
       def execute
-        user = User.find_by(id: @param[:id])
-        if user.present?
-          user.update!(
-            password:              @param[:password],
-            password_confirmation: @param[:password_confirmation],
-            email:                 @param[:email],
-            role:                  @param[:role].to_sym,
-            name:                  @param[:name]
-          )
+        ActiveRecord::Base.transaction do
+          user = User.find_by(id: @param[:id])
+          if user.present?
+            user.update(
+              password:              @param[:password],
+              password_confirmation: @param[:password_confirmation],
+              email:                 @param[:email],
+              role:                  @param[:role].to_sym,
+              name:                  @param[:name]
+            )
 
-          { success: true }
-        else
-          { success: false }
+            return { success: true }
+          else
+            return { success: false }
+          end
         end
+
+        { success: false }
       end
 
     end

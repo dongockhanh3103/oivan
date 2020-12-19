@@ -17,7 +17,7 @@ module Admin
 
           return { success: true, quiz: quiz, questions: questions }
         end
-
+      rescue
         { success: false }
       end
 

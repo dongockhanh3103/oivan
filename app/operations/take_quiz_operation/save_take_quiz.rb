@@ -38,6 +38,7 @@ module TakeQuizOperation
 
     # answers = [{ question: 1, answer: 1 }, { question: 2, answer: 2 }]
     def save_take_quiz!
+      # debugger
       @results.each do |result|
         quiz_question = QuizQuestion.includes(:quiz_answers).find_by(id: result[:question])
 
@@ -45,9 +46,10 @@ module TakeQuizOperation
           raise Params::InvalidParamError.new(@results, "Invalid question: #{result[:question]}")
         end
 
-        if !quiz_question.quiz_answers.pluck(:id).include?(result[:answer])
+        if !quiz_question.quiz_answers.pluck(:id).include?(result[:answer].to_i)
           raise Params::InvalidParamError.new(@results, "Invalid answer: #{result[:answer]}")
         end
+
         TakeAnswer.create!(quiz_answer_id:   result[:answer],
                            quiz_question_id: result[:question],
                            take_quiz_id:     @take_quiz.id)

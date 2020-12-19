@@ -18,13 +18,13 @@ module Authn
     # verify the request has beare token
     # get HTTP_AUTHORIZATION header and verify
     def authentication_user!
-      raise Authorization::UnauthenticatedError if get_bearer_token.nil?
+      raise Authn::UnauthenticatedError if get_bearer_token.nil?
       decoded = AuthenTokenService.decode(get_bearer_token)
 
-      raise Authorization::UnauthenticatedError if decoded.blank?
+      raise Authn::UnauthenticatedError if decoded.blank?
 
       user = User.find_by(email: decoded[:email])
-      raise Authorization::UnauthenticatedError if user.nil?
+      raise Authn::UnauthenticatedError if user.nil?
 
       login_success(user)
     end

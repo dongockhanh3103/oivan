@@ -13,7 +13,7 @@ module Admin
       #
       # @return [Hash] The result after handle created User
       def execute
-        user = User.create!(
+        user = User.create(
                 password:              @param[:password],
                 password_confirmation: @param[:password_confirmation],
                 email:                 @param[:email],

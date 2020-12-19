@@ -77,6 +77,10 @@ module Api
       end
 
       def refresh_token_params
+        if params.permit(:refresh_token).blank?
+          raise Params::InvalidParamError.new(params, 'Provide invalid parameters')
+        end
+
         params.permit(:refresh_token)
       end
 
