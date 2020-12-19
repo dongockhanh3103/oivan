@@ -1,25 +1,36 @@
-# README
+# VENUERIFIC
+Venuerific Assignment
+## Usage
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Go to: https://venuerific.herokuapp.com/
+Default:
+  - Email: admin@gmail.com
+  - Password: admin123
+  - Role: Admin
 
-Things you may want to cover:
+## Feature
+1. User
+  - [X] Create User
+  - [X] Have 2 roles includes admin and regular user. Admins can manages all posts and Regular users just manages their posts.
+  - [X] Update Password
+  - [X] Sign in with session
+  - [X] Sign up
+  - [X] Sign out
 
-* Ruby version
+2. Post
+  - [X] CURD Posts
+  - [X] Authorize Posts
+  - [X] Search Posts
+  - [X] Pagination Post
 
-* System dependencies
+## Unit Test
+  - [X] Controller
+  - [X] Model
+  - [X] Operation
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# oivan
+## Best practices
+  - [X] Rubocop
+## Devops
+  - [X] Auto run Rubocop after create PR on Github Action
+  - [X] Auto run Unit Test after create PR on Github Action
+  - [X] Go live application to Heroku
