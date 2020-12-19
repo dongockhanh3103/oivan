@@ -24,12 +24,10 @@ Go to: https://iwa-tech.herokuapp.com/
   - [X] CURD Tests
   - [X] Authorize Tests
 
-3. API
 | First Header  | Second Header |
 | ------------- | ------------- |
 | Content Cell  | Content Cell  |
 | Content Cell  | Content Cell  |
-
 
 ## Unit Test
   - [X] Operations
