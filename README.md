@@ -3,10 +3,9 @@ Oivan Assignment
 ## Usage
 
 Go to: https://iwa-tech.herokuapp.com/
-Default:
-  - Email: teacher@example.com
-  - Password: 12345678
-  - Role: Teacher
+- Email: teacher@example.com
+- Password: 12345678
+- Role: Teacher
 
 ## Feature
 1. Admin page
