@@ -24,11 +24,17 @@ Go to: https://iwa-tech.herokuapp.com/
   - [X] CURD Tests
   - [X] Authorize Tests
 
+3. API
+
 | Feature       | API           | Method        | Params        | Headers       |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Login         | /api/v1/authen_tokens  | POST  | email, password |   |
 | Refresh Token  | /api/v1/authen_tokens/refresh_token  | POST  | refresh_token |   |
+| Logout  | /api/v1/authen_tokens  | DELETE  |  | AUTHORIZATION  | 
 | Get Quiz  | /api/v1/quizzes  | GET  |  | AUTHORIZATION  | 
+| Get Questions  | /api/v1/quizzes/:id/questions  | GET  |  | AUTHORIZATION  |
+| Get Take Quiz  | /api/v1/take_quizzes/:id  | GET  |  | AUTHORIZATION  | 
+| Save Take Quiz  | /api/v1/take_quizzes  | POST  |  | AUTHORIZATION  | 
 
 ## Unit Test
   - [X] Operations
