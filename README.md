@@ -21,9 +21,9 @@ Default:
   - [X] CURD Tests
   - [X] Authorize Tests
 3. API
-Feature | API | Params | Header | Response 
---- | --- | --- | --- |--- |--- |--- |--- 
-Login | 301 | 283 | 290 | 286 | 289 | 285 
+| Attempt | #1 | #2 |
+| :---: | :---: | :---: |
+| Seconds | 301 | 283 |
 
 ## Unit Test
   - [X] Operations
