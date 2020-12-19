@@ -25,10 +25,10 @@ Go to: https://iwa-tech.herokuapp.com/
   - [X] Authorize Tests
 
 3. API
-| Feature  | API | Params  | Header | Response | Header |
-| ------------- | ------------- | -------------  | ------------- | ------------- | ------------- |
-| Login  | /api/v1/authen_tokens  |   | Second Header | Header | Header |
-| Content Cell  | Content Cell  | First Header  | Second Header | Header | Header |
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
 
 
 ## Unit Test
